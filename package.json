@@ -21,10 +21,12 @@
   "dependencies": {
     "@vcalendars/models": "^0.2.0",
     "@vcalendars/scrapers": "^0.1.1",
+    "amqplib": "^0.5.5",
     "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@danielemeryau/prettier-config": "0.0.6",
+    "@types/amqplib": "^0.5.13",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   }

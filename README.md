@@ -19,7 +19,13 @@ Provide configuration containing all the targets you wish to scrape via json on 
 }
 ```
 
-Provide
+Provide RabbitMQ details via environment variables
+
+- RABBIT_MQ_USER Username to connect to rabbit
+- RABBIT_MQ_PASS Password to connect to rabbit
+- RABBIT_MQ_HOST Hostname of the rabbit instance
+- RABBIT_MQ_PORT Port on which to connect to rabbit
+- RABBIT_MQ_EXCHANGE The name of the exchange to publish seasons to
 
 ## Development
 

@@ -2,15 +2,19 @@ import { flatMap } from 'rxjs/operators';
 
 import { Season } from '@vcalendars/models';
 
-async function emitSeasonToRabbit(season: Season): Promise<undefined> {
-  // TODO Emit to rabbit
-  console.log('Successfully emiting season to rabbit!');
+import rabbitmq from './rabbitmq';
+
+async function emitSeasonToRabbit(
+  season: Season,
+  exchange: string,
+): Promise<undefined> {
+  rabbitmq.publish(exchange, '', season);
   return Promise.resolve(undefined);
 }
 
-export default function rabbitEmitter() {
+export default function rabbitEmitter(exchange: string) {
   return flatMap(async (season: Season) => {
-    await emitSeasonToRabbit(season);
+    await emitSeasonToRabbit(season, exchange);
     return season;
   });
 }
