@@ -1,0 +1,31 @@
+{
+  "name": "scraper-worker",
+  "version": "0.0.1",
+  "description": "Worker that scrapes volleyball timetables from the web based on a configuration file and emits JSON to rabbit",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vcalendars/scraper-worker.git"
+  },
+  "author": "Daniel Emery <danielremery@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vcalendars/scraper-worker/issues"
+  },
+  "homepage": "https://github.com/vcalendars/scraper-worker#readme",
+  "dependencies": {
+    "@vcalendars/models": "^0.2.0",
+    "@vcalendars/scrapers": "^0.1.1",
+    "rxjs": "^6.5.4"
+  },
+  "devDependencies": {
+    "@danielemeryau/prettier-config": "0.0.6",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
