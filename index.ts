@@ -57,11 +57,11 @@ async function performScrapes(): Promise<ScrapeResult> {
 
 console.log('Scrape Initialising');
 performScrapes()
-  .then(({ succeeded, failed }) => {
+  .then(async ({ succeeded, failed }) => {
     console.log('Scrape Completed');
     console.log(`${succeeded.length} seasons scraped and emitted successfully`);
     console.log(`${failed.length} targets failed`);
-    rabbit.disconnect();
+    await rabbit.disconnect();
     process.exit(0);
   })
   .catch(err => {

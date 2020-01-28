@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/vcalendars/scraper-worker#readme",
   "dependencies": {
-    "@danielemeryau/simple-rabbitmq": "0.0.6",
+    "@danielemeryau/simple-rabbitmq": "0.0.7",
     "@vcalendars/models": "^0.2.0",
     "@vcalendars/scrapers": "^0.1.2",
     "amqplib": "^0.5.5",
