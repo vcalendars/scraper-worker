@@ -19,13 +19,14 @@
   },
   "homepage": "https://github.com/vcalendars/scraper-worker#readme",
   "dependencies": {
+    "@danielemeryau/simple-rabbitmq": "0.0.6",
     "@vcalendars/models": "^0.2.0",
-    "@vcalendars/scrapers": "^0.1.1",
+    "@vcalendars/scrapers": "^0.1.2",
     "amqplib": "^0.5.5",
     "rxjs": "^6.5.4"
   },
   "devDependencies": {
-    "@danielemeryau/prettier-config": "0.0.6",
+    "@danielemeryau/prettier-config": "^0.0.6",
     "@types/amqplib": "^0.5.13",
     "dotenv": "^8.2.0",
     "ts-node": "^8.6.2",
