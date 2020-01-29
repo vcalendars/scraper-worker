@@ -13,7 +13,6 @@ jobs:
   publish:
     machine:
       image: ubuntu-1604:201903-01
-      docker_layer_caching: true
     steps:
       - checkout
       - run:
@@ -38,7 +37,6 @@ jobs:
   publish-latest:
     machine:
       image: ubuntu-1604:201903-01
-      docker_layer_caching: true
     steps:
       - checkout
       - run:
