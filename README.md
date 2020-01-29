@@ -34,7 +34,7 @@ Provide RabbitMQ details via environment variables
 ### Docker Run
 
 A manual run can be done with docker using the following command:
-`docker run --volume=$(echo $PWD)/test:/usr/config --env-file=.env scraper-worker`
+`docker run --volume=$(echo $PWD)/test:/usr/config --env-file=.env vcalendars/scraper-worker`
 
 ## Development
 
