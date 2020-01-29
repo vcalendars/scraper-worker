@@ -8,12 +8,11 @@ export default function rabbitEmitter(
   exchange: string,
 ) {
   return flatMap(async (season: Season) => {
-    console.log(`Preparing to emit ${season.name}`);
     try {
       await rabbit.publish(exchange, '', season);
-      console.log(`Season ${season.name} emitted`);
+      console.log(`Season <${season.name}> emitted`);
     } catch (err) {
-      console.error(`Season ${season.name} failed`, err);
+      console.error(`Season <${season.name}> failed`, err);
     }
     return season;
   });

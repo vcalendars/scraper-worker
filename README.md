@@ -4,6 +4,8 @@ Worker that scrapes volleyball timetables from the web based on a configuration 
 
 ## Usage
 
+### Configuration
+
 Provide configuration containing all the targets you wish to scrape via json on stdin.
 
 ```json
@@ -21,11 +23,18 @@ Provide configuration containing all the targets you wish to scrape via json on 
 
 Provide RabbitMQ details via environment variables
 
-- RABBIT_MQ_USER Username to connect to rabbit
-- RABBIT_MQ_PASS Password to connect to rabbit
-- RABBIT_MQ_HOST Hostname of the rabbit instance
-- RABBIT_MQ_PORT Port on which to connect to rabbit
-- RABBIT_MQ_EXCHANGE The name of the exchange to publish seasons to
+| Name               | Default Value | Description                                    |
+|--------------------|---------------|------------------------------------------------|
+| RABBIT_MQ_USER     | scraper       | Username to connect to rabbit                  |
+| RABBIT_MQ_PASS     | scraper       | Password to connect to rabbit                  |
+| RABBIT_MQ_HOST     | localhost     | Hostname of the rabbit instance                |
+| RABBIT_MQ_PORT     | 5672          | Port on which to connect to rabbit             |
+| RABBIT_MQ_EXCHANGE | scraper       | The name of the exchange to publish seasons to |
+
+### Docker Run
+
+A manual run can be done with docker using the following command:
+`docker run --volume=$(echo $PWD)/test:/usr/config --env-file=.env scraper-worker`
 
 ## Development
 
