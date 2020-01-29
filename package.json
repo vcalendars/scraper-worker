@@ -1,6 +1,6 @@
 {
   "name": "scraper-worker",
-  "version": "0.0.2-build-test.1",
+  "version": "0.0.2-build-test.2",
   "description": "Worker that scrapes volleyball timetables from the web based on a configuration file and emits JSON to rabbit",
   "main": "dist/index.js",
   "scripts": {
