@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "dev": "ts-node -r dotenv/config index.ts",
+    "dev": "ts-node -r dotenv/config index.ts | npx bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/vcalendars/scraper-worker#readme",
   "dependencies": {
-    "@danielemeryau/simple-rabbitmq": "0.0.7",
+    "@danielemeryau/logger": "0.0.5",
+    "@danielemeryau/simple-rabbitmq": "0.0.8",
     "@vcalendars/models": "^0.2.0",
     "@vcalendars/scrapers": "^0.1.2",
     "amqplib": "^0.5.5",

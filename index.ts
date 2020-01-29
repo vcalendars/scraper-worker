@@ -1,9 +1,13 @@
 import { AvailableScrapers, Scrape } from '@vcalendars/scrapers';
 import { Season, Target } from '@vcalendars/models';
 import { Rabbit } from '@danielemeryau/simple-rabbitmq';
+import Logger from '@danielemeryau/logger';
 
 import readJsonFromStdin from './src/readJsonFromStdin';
 import rabbitEmitter from './src/rabbitEmitter';
+
+const logger = new Logger('scraper-worker');
+const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
 
 interface ScrapeResult {
   succeeded: Season[];
@@ -14,7 +18,7 @@ let rabbit: Rabbit<Season>;
 
 async function performScrapes(): Promise<ScrapeResult> {
   const configuration = await readJsonFromStdin(5000);
-  console.log('Configuration Loaded');
+  logger.debug('Configuration Loaded');
   const availableScrapers = AvailableScrapers();
   const invalidTargets = configuration.targets.filter(
     t => !availableScrapers.includes(t.scraperName),
@@ -23,12 +27,15 @@ async function performScrapes(): Promise<ScrapeResult> {
     availableScrapers.includes(t.scraperName),
   );
 
-  rabbit = new Rabbit<Season>({
-    host: process.env.RABBIT_MQ_HOST || 'localhost',
-    port: process.env.RABBIT_MQ_PORT || '5672',
-    user: process.env.RABBIT_MQ_USER || 'scraper',
-    password: process.env.RABBIT_MQ_PASS || 'scraper',
-  });
+  rabbit = new Rabbit<Season>(
+    {
+      host: process.env.RABBIT_MQ_HOST || 'localhost',
+      port: process.env.RABBIT_MQ_PORT || '5672',
+      user: process.env.RABBIT_MQ_USER || 'scraper',
+      password: process.env.RABBIT_MQ_PASS || 'scraper',
+    },
+    rabbitLogger,
+  );
   await rabbit.connect();
 
   return new Promise(resolve => {
@@ -44,9 +51,15 @@ async function performScrapes(): Promise<ScrapeResult> {
       resolve({ succeeded: successfullyScraped, failed: invalidTargets });
     }
 
-    console.log(`Commencing Scrape over ${validTargets.length} valid targets`);
+    logger.info(`Commencing Scrape over ${validTargets.length} valid targets`);
     Scrape({ targets: validTargets })
-      .pipe(rabbitEmitter(rabbit, process.env.RABBIT_MQ_EXCHANGE || 'scraper'))
+      .pipe(
+        rabbitEmitter(
+          rabbit,
+          process.env.RABBIT_MQ_EXCHANGE || 'scraper',
+          logger,
+        ),
+      )
       .subscribe(
         handleSeasonCollected,
         handleScrapeError,
@@ -55,17 +68,17 @@ async function performScrapes(): Promise<ScrapeResult> {
   });
 }
 
-console.log('Scrape Initialising');
+logger.info('Scrape Initialising');
 performScrapes()
   .then(async ({ succeeded, failed }) => {
-    console.log('Scrape Completed');
-    console.log(`${succeeded.length} seasons scraped and emitted successfully`);
-    console.log(`${failed.length} targets failed`);
+    logger.info('Scrape Completed');
+    logger.info(`${succeeded.length} seasons scraped and emitted successfully`);
+    logger.info(`${failed.length} targets failed`);
     await rabbit.disconnect();
     process.exit(0);
   })
   .catch(err => {
-    console.error(err);
+    logger.error(err);
     rabbit.disconnect();
     process.exit(1);
   });

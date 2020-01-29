@@ -40,4 +40,4 @@ A manual run can be done with docker using the following command:
 
 Testing can be done with the examples provided in the `test/` directory.
 
-`cat test/sample_configuration.json | npm run dev`
+`cat test/config.json | npm run dev`
