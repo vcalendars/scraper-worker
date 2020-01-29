@@ -65,6 +65,11 @@ workflows:
             tags:
               only: /.*/
 
+      - env:
+          filters:
+            tags:
+              only: /v([0-9])*.([0-9])*.([0-9])*/
+
       - publish:
           requires:
             - test
