@@ -39,9 +39,9 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Fail
-        command: |
-          echo NOT YET IMPLEMENTED
+          name: Fail
+          command: |
+            echo NOT YET IMPLEMENTED
 
 workflows:
   version: 2
