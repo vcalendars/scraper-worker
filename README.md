@@ -21,7 +21,7 @@ Provide configuration containing all the targets you wish to scrape via json on 
 }
 ```
 
-Provide RabbitMQ details via environment variables
+Provide other configuration details details via environment variables
 
 | Name               | Default Value | Description                                    |
 |--------------------|---------------|------------------------------------------------|
@@ -30,6 +30,7 @@ Provide RabbitMQ details via environment variables
 | RABBIT_MQ_HOST     | localhost     | Hostname of the rabbit instance                |
 | RABBIT_MQ_PORT     | 5672          | Port on which to connect to rabbit             |
 | RABBIT_MQ_EXCHANGE | scraper       | The name of the exchange to publish seasons to |
+| LOG_LEVEL          | info          | The minimum log level that will be printed     |
 
 ### Docker Run
 
