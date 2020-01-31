@@ -1,10 +1,9 @@
 import { AvailableScrapers, Scrape } from '@vcalendars/scrapers';
 import { Season, Target } from '@vcalendars/models';
-import { Rabbit } from '@danielemeryau/simple-rabbitmq';
+import { Rabbit, publishObservable } from '@danielemeryau/simple-rabbitmq';
 import Logger from '@danielemeryau/logger';
 
 import readJsonFromStdin from './src/readJsonFromStdin';
-import rabbitEmitter from './src/rabbitEmitter';
 
 const logger = new Logger('scraper-worker');
 const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
@@ -14,7 +13,7 @@ interface ScrapeResult {
   failed: Target[];
 }
 
-let rabbit: Rabbit<Season>;
+let rabbit: Rabbit;
 
 async function performScrapes(): Promise<ScrapeResult> {
   const configuration = await readJsonFromStdin(5000);
@@ -27,7 +26,7 @@ async function performScrapes(): Promise<ScrapeResult> {
     availableScrapers.includes(t.scraperName),
   );
 
-  rabbit = new Rabbit<Season>(
+  rabbit = new Rabbit(
     {
       host: process.env.RABBIT_MQ_HOST || 'localhost',
       port: process.env.RABBIT_MQ_PORT || '5672',
@@ -38,14 +37,17 @@ async function performScrapes(): Promise<ScrapeResult> {
   );
   await rabbit.connect();
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const successfullyScraped: Season[] = [];
 
     function handleSeasonCollected(season: Season) {
       successfullyScraped.push(season);
     }
 
-    function handleScrapeError(error: any) {}
+    function handleScrapeError(error: any) {
+      logger.error(error);
+      reject(error);
+    }
 
     function handleScrapeCompleted() {
       resolve({ succeeded: successfullyScraped, failed: invalidTargets });
@@ -54,11 +56,7 @@ async function performScrapes(): Promise<ScrapeResult> {
     logger.info(`Commencing Scrape over ${validTargets.length} valid targets`);
     Scrape({ targets: validTargets })
       .pipe(
-        rabbitEmitter(
-          rabbit,
-          process.env.RABBIT_MQ_EXCHANGE || 'scraper',
-          logger,
-        ),
+        publishObservable(rabbit, process.env.RABBIT_MQ_EXCHANGE || 'scraper'),
       )
       .subscribe(
         handleSeasonCollected,
