@@ -1,15 +1,17 @@
 import { AvailableScrapers, Scrape } from '@vcalendars/scrapers';
-import { Season, Target } from '@vcalendars/models';
+import { Target } from '@vcalendars/models/raw';
+import { ScrapedSeasonMessage } from '@vcalendars/models/messages';
 import { Rabbit, publishObservable } from '@danielemeryau/simple-rabbitmq';
 import Logger from '@danielemeryau/logger';
 
 import readJsonFromStdin from './src/readJsonFromStdin';
+import createMessage from './src/createMessage';
 
 const logger = new Logger('scraper-worker');
 const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
 
 interface ScrapeResult {
-  succeeded: Season[];
+  succeeded: ScrapedSeasonMessage[];
   failed: Target[];
 }
 
@@ -38,9 +40,9 @@ async function performScrapes(): Promise<ScrapeResult> {
   await rabbit.connect();
 
   return new Promise((resolve, reject) => {
-    const successfullyScraped: Season[] = [];
+    const successfullyScraped: ScrapedSeasonMessage[] = [];
 
-    function handleSeasonCollected(season: Season) {
+    function handleSeasonCollected(season: ScrapedSeasonMessage) {
       successfullyScraped.push(season);
     }
 
@@ -56,7 +58,11 @@ async function performScrapes(): Promise<ScrapeResult> {
     logger.info(`Commencing Scrape over ${validTargets.length} valid targets`);
     Scrape({ targets: validTargets })
       .pipe(
-        publishObservable(rabbit, process.env.RABBIT_MQ_EXCHANGE || 'scraper'),
+        createMessage(),
+        publishObservable<ScrapedSeasonMessage>(
+          rabbit,
+          process.env.RABBIT_MQ_EXCHANGE || 'scraper',
+        ),
       )
       .subscribe(
         handleSeasonCollected,

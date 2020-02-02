@@ -4,6 +4,7 @@
       "url": "https://www.volleyballsa.com.au/social/indoor/fixtures",
       "scraperName": "volleyball-sa",
       "timezone": "Australia/Adelaide",
+      "matchDuration": 60,
       "options": {}
     }
   ]

@@ -15,6 +15,7 @@ Provide configuration containing all the targets you wish to scrape via json on 
       "url": "https://www.volleyballsa.com.au/social/indoor/fixtures",
       "scraperName": "volleyball-sa",
       "timezone": "Australia/Adelaide",
+      "matchDuration": 60,
       "options": {}
     }
   ]

@@ -21,8 +21,8 @@
   "dependencies": {
     "@danielemeryau/logger": "0.0.5",
     "@danielemeryau/simple-rabbitmq": "0.0.10-publish-observable.1",
-    "@vcalendars/models": "^0.2.0",
-    "@vcalendars/scrapers": "^0.1.2",
+    "@vcalendars/models": "0.3.1-namespaces.5",
+    "@vcalendars/scrapers": "^0.1.3",
     "amqplib": "^0.5.5",
     "rxjs": "^6.5.4"
   },
