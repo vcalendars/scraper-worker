@@ -15,7 +15,7 @@ interface ScrapeResult {
   failed: Target[];
 }
 
-let rabbit: Rabbit;
+let rabbit: Rabbit; 
 
 async function performScrapes(): Promise<ScrapeResult> {
   const configuration = await readJsonFromStdin(5000);
