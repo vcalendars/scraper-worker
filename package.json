@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vcalendars/scraper-worker.git"
+    "url": "git+https://github.com/teamest-au/scraper-worker.git"
   },
   "author": "Daniel Emery <danielremery@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vcalendars/scraper-worker/issues"
+    "url": "https://github.com/teamest-au/scraper-worker/issues"
   },
-  "homepage": "https://github.com/vcalendars/scraper-worker#readme",
+  "homepage": "https://github.com/teamest-au/scraper-worker#readme",
   "dependencies": {
     "@danielemeryau/logger": "^0.1.1",
     "@danielemeryau/simple-rabbitmq": "^0.2.0",
-    "@vcalendars/models": "^0.5.1",
-    "@vcalendars/scrapers": "^0.2.0",
+    "@teamest/models": "^0.6.1",
+    "@teamest/scrapers": "^0.2.1",
     "amqplib": "^0.6.0",
     "rxjs": "^6.6.0"
   },

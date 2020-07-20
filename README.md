@@ -37,7 +37,7 @@ Provide other configuration details details via environment variables
 
 A manual run can be done with docker using the following command:
 
-`docker run --volume=$(echo $PWD)/test:/usr/config --env-file=.env vcalendars/scraper-worker`
+`docker run --volume=$(echo $PWD)/test:/usr/config --env-file=.env teamest/scraper-worker`
 
 ## Development
 

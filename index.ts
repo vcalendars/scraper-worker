@@ -1,6 +1,6 @@
-import { AvailableScrapers, Scrape } from '@vcalendars/scrapers';
-import { Target } from '@vcalendars/models/raw';
-import { ScrapedSeasonMessage } from '@vcalendars/models/messages';
+import { AvailableScrapers, Scrape } from '@teamest/scrapers';
+import { Target } from '@teamest/models/raw';
+import { ScrapedSeasonMessage } from '@teamest/models/messages';
 import { Rabbit, publishObservable } from '@danielemeryau/simple-rabbitmq';
 import Logger from '@danielemeryau/logger';
 

@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
-import { ScrapedSeason } from '@vcalendars/models/processed';
-import { ScrapedSeasonMessage } from '@vcalendars/models/messages';
+import { ScrapedSeason } from '@teamest/models/processed';
+import { ScrapedSeasonMessage } from '@teamest/models/messages';
 
 const MESSAGE_VERSION = 'v1.0';
 
