@@ -9,8 +9,6 @@ export default function createMessage() {
     ({ season, sourceTarget }) => ({
       season,
       timeScraped: new Date(),
-      matchDuration: sourceTarget.matchDuration,
-      timezone: sourceTarget.timezone,
       version: MESSAGE_VERSION,
     }),
   );

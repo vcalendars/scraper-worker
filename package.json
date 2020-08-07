@@ -21,8 +21,8 @@
   "dependencies": {
     "@danielemeryau/logger": "^0.1.1",
     "@danielemeryau/simple-rabbitmq": "^0.2.0",
-    "@teamest/models": "^0.6.1",
-    "@teamest/scrapers": "^0.2.1",
+    "@teamest/models": "^0.8.1",
+    "@teamest/scrapers": "^0.3.1",
     "amqplib": "^0.6.0",
     "rxjs": "^6.6.0"
   },

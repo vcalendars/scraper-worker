@@ -1,11 +1,12 @@
 {
   "targets": [
     {
-      "url": "https://www.volleyballsa.com.au/social/indoor/fixtures",
+      "url": "https://www.volleyballsa.com.au/social/beach/fixtures",
       "scraperName": "volleyball-sa",
-      "timezone": "Australia/Adelaide",
-      "matchDuration": 60,
-      "options": {}
+      "options": {
+        "timezone": "Australia/Adelaide",
+        "matchDuration": 60
+      }
     }
   ]
 }
