@@ -4,6 +4,7 @@
       "url": "https://www.volleyballsa.com.au/social/beach/fixtures",
       "scraperName": "volleyball-sa",
       "options": {
+        "competitionName": "Volleyball SA Beach",
         "timezone": "Australia/Adelaide",
         "matchDuration": 60
       }
