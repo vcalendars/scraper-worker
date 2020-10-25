@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import IScraperConfiguration from './IScraperConfiguration';
 
 const stdin = process.stdin;
 
@@ -9,7 +8,7 @@ async function timeout(timeoutMillis: number): Promise<undefined> {
   });
 }
 
-async function _readJsonFromStdin(): Promise<IScraperConfiguration> {
+async function _readJsonFromStdin<T>(): Promise<T> {
   return new Promise((resolve, reject) => {
     try {
       stdin.resume();
@@ -37,7 +36,7 @@ export default async function readJsonFromStdin<T>(
 ): Promise<T> {
   const data = await Promise.race([
     timeout(timeoutMillis),
-    _readJsonFromStdin(),
+    _readJsonFromStdin<T>(),
   ]);
   if (data !== undefined) {
     const result = schema.validate(data);
