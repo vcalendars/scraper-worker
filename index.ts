@@ -11,6 +11,9 @@ import configurationSchema from './src/configuration.schema';
 const logger = new Logger('scraper-worker');
 const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
 
+const FIVE_MINUTES_MILLIS = 5 * 60 * 1000;
+const TEN_SECONDS_MILLIS = 10 * 1000;
+
 interface ScrapeResult {
   succeeded: ScrapedSeasonMessage[];
   failed: Target[];
@@ -43,6 +46,8 @@ async function performScrapes(): Promise<ScrapeResult> {
   );
   await rabbit.connect({
     retry: true,
+    retryWait: TEN_SECONDS_MILLIS,
+    timeoutMillis: FIVE_MINUTES_MILLIS,
   });
 
   return new Promise((resolve, reject) => {
