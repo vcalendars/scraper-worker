@@ -41,7 +41,9 @@ async function performScrapes(): Promise<ScrapeResult> {
     },
     rabbitLogger,
   );
-  await rabbit.connect();
+  await rabbit.connect({
+    retry: true,
+  });
 
   return new Promise((resolve, reject) => {
     const successfullyScraped: ScrapedSeasonMessage[] = [];
