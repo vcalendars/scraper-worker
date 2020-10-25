@@ -24,6 +24,7 @@
     "@teamest/models": "^0.9.2",
     "@teamest/scrapers": "^0.4.0",
     "amqplib": "^0.6.0",
+    "joi": "^17.3.0",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
