@@ -1,4 +1,4 @@
-FROM node:10 AS build
+FROM node:12 AS build
 
 RUN mkdir -p /usr/build
 WORKDIR /usr/build
@@ -7,7 +7,7 @@ COPY . .
 RUN npm ci
 RUN npm run build
 
-FROM node:10-alpine
+FROM node:12-alpine
 
 RUN mkdir -p /usr/dist
 WORKDIR /usr/dist
