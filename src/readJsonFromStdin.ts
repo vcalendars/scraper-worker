@@ -1,9 +1,10 @@
+import Joi from 'joi';
 import IScraperConfiguration from './IScraperConfiguration';
 
 const stdin = process.stdin;
 
 async function timeout(timeoutMillis: number): Promise<undefined> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, timeoutMillis);
   });
 }
@@ -15,11 +16,11 @@ async function _readJsonFromStdin(): Promise<IScraperConfiguration> {
       stdin.setEncoding('utf8');
 
       const inputChunks: Array<Buffer> = [];
-      stdin.on('data', function(chunk) {
+      stdin.on('data', function (chunk) {
         inputChunks.push(chunk);
       });
 
-      stdin.on('end', function() {
+      stdin.on('end', function () {
         const inputJSON = inputChunks.join();
         const parsedData = JSON.parse(inputJSON);
         resolve(parsedData);
@@ -30,13 +31,21 @@ async function _readJsonFromStdin(): Promise<IScraperConfiguration> {
   });
 }
 
-export default async function readJsonFromStdin(timeoutMillis: number) {
+export default async function readJsonFromStdin<T>(
+  timeoutMillis: number,
+  schema: Joi.ObjectSchema<T>,
+): Promise<T> {
   const data = await Promise.race([
     timeout(timeoutMillis),
     _readJsonFromStdin(),
   ]);
   if (data !== undefined) {
-    return data;
+    const result = schema.validate(data);
+    if (result.error) {
+      throw new Error(`Configuration file invalid: ${result.error}`);
+    } else {
+      return result.value;
+    }
   }
   throw new Error('Timed out waiting for configuration in stdin');
 }

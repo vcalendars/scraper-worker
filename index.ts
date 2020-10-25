@@ -1,11 +1,12 @@
 import { AvailableScrapers, Scrape } from '@teamest/scrapers';
-import { Target } from '@teamest/models/raw';
+import { Configuration, Target } from '@teamest/models/raw';
 import { ScrapedSeasonMessage } from '@teamest/models/messages';
 import { Rabbit, publishObservable } from '@danielemeryau/simple-rabbitmq';
 import Logger from '@danielemeryau/logger';
 
 import readJsonFromStdin from './src/readJsonFromStdin';
 import createMessage from './src/createMessage';
+import configurationSchema from './src/configuration.schema';
 
 const logger = new Logger('scraper-worker');
 const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
@@ -18,13 +19,16 @@ interface ScrapeResult {
 let rabbit: Rabbit;
 
 async function performScrapes(): Promise<ScrapeResult> {
-  const configuration = await readJsonFromStdin(5000);
+  const configuration = await readJsonFromStdin<Configuration>(
+    5000,
+    configurationSchema,
+  );
   logger.debug('Configuration Loaded');
   const availableScrapers = AvailableScrapers();
   const invalidTargets = configuration.targets.filter(
-    t => !availableScrapers.includes(t.scraperName),
+    (t) => !availableScrapers.includes(t.scraperName),
   );
-  const validTargets = configuration.targets.filter(t =>
+  const validTargets = configuration.targets.filter((t) =>
     availableScrapers.includes(t.scraperName),
   );
 
@@ -81,8 +85,8 @@ performScrapes()
     await rabbit.disconnect();
     process.exit(0);
   })
-  .catch(err => {
+  .catch((err) => {
     logger.error(err);
-    rabbit.disconnect();
+    rabbit?.disconnect();
     process.exit(1);
   });
