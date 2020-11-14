@@ -6,10 +6,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run Unit Tests
+          name: Run Build
           command: |
             npm ci
             npm run build
+      - run:
+          name: Run Lint
+          command: |
+            npm run lint
+      # - run:
+      #     name: Unit Test
+      #     command: |
+      #       npm t
 
   publish:
     machine:

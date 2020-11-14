@@ -2,11 +2,12 @@ import { AvailableScrapers, Scrape } from '@teamest/scrapers';
 import { Configuration, Target } from '@teamest/models/raw';
 import { ScrapedSeasonMessage } from '@teamest/models/messages';
 import { Rabbit, publishObservable } from '@danielemeryau/simple-rabbitmq';
-import Logger from '@danielemeryau/logger';
+import { Logger } from '@danielemeryau/logger';
 
 import readJsonFromStdin from './src/readJsonFromStdin';
 import createMessage from './src/createMessage';
 import configurationSchema from './src/configuration.schema';
+import { ScrapeError } from './src/errors';
 
 const logger = new Logger('scraper-worker');
 const rabbitLogger = new Logger('scraper-worker/simple-rabbitmq');
@@ -57,8 +58,12 @@ async function performScrapes(): Promise<ScrapeResult> {
       successfullyScraped.push(season);
     }
 
-    function handleScrapeError(error: any) {
-      logger.error(error);
+    function handleScrapeError(error: unknown) {
+      if (error instanceof ScrapeError) {
+        logger.error(error.message, error.context);
+      } else {
+        logger.error('Unhandled error occurred', error);
+      }
       reject(error);
     }
 
